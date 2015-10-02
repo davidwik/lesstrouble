@@ -94,7 +94,7 @@ class LessListener:
         self.args = parse_args()
 
         self.cwd = os.getcwd()
-        self.inputFile = os.getcwd() + os.sep + self.args[1][0]
+        self.inputFile = os.path.abspath(os.getcwd() + os.sep + self.args[1][0])
 
         print "%sInput file:    %s%s%s%s" % (TermColors.WARNING,
                                         TermColors.OKBLUE,
@@ -113,7 +113,7 @@ class LessListener:
 
 
         self.readDir = os.sep.join(self.inputFile.split(os.sep)[:-1])
-        print "%sWorking dir:   %s%s%s%s" % (TermColors.WARNING,
+        print "%sBase dir:      %s%s%s%s" % (TermColors.WARNING,
                                           TermColors.OKBLUE,
                                           self.readDir,
                                           TermColors.DEFAULT,
@@ -188,15 +188,27 @@ class LessListener:
 
 
     def readFiles(self):
+        if self.firstRun is False:
+            print "%s%sReparseing all dependencies...%s\n" % (
+                TermColors.OKGREEN,
+                TermColors.BOLD, 
+                TermColors.ENDC)
+
         fileList = self.getFileList()
         self.itemList = [];
+
 
         for filename in fileList:
             if filename.endswith('.less'):
                 t = os.path.getmtime(filename)
                 self.itemList.append({'filename': filename, 'time': t})
                 if self.firstRun is True:
-                    print TermColors.OKBLUE + "[Checking] %s" % filename
+                    print "%s%s[Checking]: %s%s%s" % (
+                        TermColors.OKGREEN,
+                        TermColors.BOLD,
+                        TermColors.ENDC,
+                        TermColors.WARNING, 
+                        filename)
         self.firstRun = False
 
     def loop(self):
@@ -237,23 +249,35 @@ class LessListener:
             sys.exit(1)
 
         if s_val == 0:
-            print "\n%sSaved: %s%s\n" % (TermColors.WARNING,
-                                        TermColors.HEADER,
-                                        self.outFile.split(os.sep).pop()
-                                        )
+            if self.args[0].compress is True:
+                print "\n%sSaved: %s%s %s(compressed)\n" % \
+                  (
+                      TermColors.WARNING,
+                      TermColors.HEADER,
+                      self.outFile.split(os.sep).pop(),
+                      TermColors.OKBLUE
+                  )
+            else:
+                print "\n%sSaved: %s%s\n" % (TermColors.WARNING,
+                                            TermColors.HEADER,
+                                            self.outFile.split(os.sep).pop()
+                                            )
 
         else:
-            print "%sSyntax error in file %s%s%s%s - See the message above." % (
+            print "%sSyntax error in file, perhaps: %s%s%s%s?%s - " \
+              "See the message above." % (
                 TermColors.FAIL,
                 TermColors.WARNING,
                 TermColors.BOLD,
                 filemodified,
+                TermColors.ENDC,
                 TermColors.DEFAULT)
         self.loop()
 
     def showProgress(self):
-        sys.stdout.write("%sListening for changes %s%s%s%s\r" \
+        sys.stdout.write("%s%sListening for changes %s%s%s%s\r" \
                          % (TermColors.OKGREEN,
+                            TermColors.ENDC,
                             TermColors.MAGENTA,
                             TermColors.BOLD,
                             LessListener.anim[self.counter],
