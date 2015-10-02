@@ -4,16 +4,16 @@ Trying to find a working *less* monitor/generator appeared to be a difficult
 mission. I tried a few, but they either crashed or failed to include
 dependencies, or just gave weird errors.
 
-So, I gave in and created my own, in Python. *lesstrouble.py* is a very simple
+So, I gave in and created my own, in Python. **lesstrouble.py** is a very simple
 LESS monitor. It generates the CSS via your installed version of the
 `lessc` compiler. It's a robust tool with no fancy features.
 Except some nice term colors :)
 
 **lesstrouble.py will do these things:** 
-* Reads a master LESS file, and includes all dependencies recursively.
+* Reads a master LESS file, and includes all dependencies and their dependencies and so on.
 * It checks for changes in all the associated files.
 * When a change is noticed it runs the `lessc` compiler and keeps on looking for changes.
-* Keep running in the background and you won't have to concern you about the compilation
+* Keep it running in the background and you won't have to concern you about the compilation
 again. (But keep a look at it for syntax errors!)
 
 **lesstrouble.py won't do these things:**
@@ -31,8 +31,8 @@ For lesstrouble.py to work, you need:
 Copy lesstrouble.py in either /usr/local/bin or your ~/bin
 and make sure it's marked as executable `chmod +x lesstrouble.py`
 
-If your Python binary is installed elsewhere than /usr/bin, edit the
-first line of the script to direct to your Python binary. 
+If your Python binary is installed anywhere than /usr/bin, edit the
+first line of the script and change it to your Python binary. 
 
 Usage
 -----
