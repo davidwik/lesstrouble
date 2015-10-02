@@ -317,10 +317,7 @@ class LessListener:
             LessListener.anim = list(reversed(LessListener.anim))
             self.counter = 0
 
-
-def start():
+if __name__ == '__main__':
     L = LessListener()
     L.startup()
-
-if __name__ == '__main__':
-    start()
+    
