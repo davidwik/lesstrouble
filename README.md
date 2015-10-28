@@ -5,16 +5,16 @@ mission. I tried a few, but they either crashed or failed to include
 dependencies, or just gave weird errors.
 
 So, I gave in and created my own, in Python. **lesstrouble.py** is a very simple
-LESS monitor. It generates the CSS via your installed version of the
-`lessc` compiler. It's a robust tool with no fancy features.
-Except some nice term colors :)
+LESS monitor. It generates the CSS with your installed and hopefully preferred 
+version of the `lessc` compiler. It's a robust tool with no fancy features.
+Except some odd term colors :)
 
 **lesstrouble.py will do these things:** 
-* Reads a master LESS file, and includes all dependencies and their dependencies and so on.
+* Reads a master LESS file, and includes all its dependencies and their dependencies and so on.
 * It checks for changes in all the associated files.
-* When a change is noticed it runs the `lessc` compiler and keeps on looking for changes.
-* Keep it running in the background and you won't have to concern you about the compilation
-again. (But keep a look at it for syntax errors!)
+* When a change is noticed, it will run the `lessc` compiler and return monitoring changes.
+* Keeps running in the background and you won't have any concerns about compiling. 
+But keep an eye out for syntax errors.
 
 **lesstrouble.py won't do these things:**
 * Write your less files.
@@ -37,7 +37,7 @@ first line of the script and change it to your Python binary.
 Usage
 -----
 lesstrouble.py is simple to use. Please note that it won't compile
-the CSS until a change has been made.
+any CSS until a change has been made.
 
 `lesstrouble.py [options] lessfile.less [output CSS file]`
 
