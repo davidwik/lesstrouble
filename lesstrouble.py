@@ -163,9 +163,12 @@ class LessListener:
                 TermColors.ENDC
             )
 
-        raw_input("Hit %sEnter%s to start!\n" % (
-            TermColors.BOLD,
-            TermColors.ENDC))
+        try:
+            raw_input("Hit %sEnter%s to start!\n" % (
+                TermColors.BOLD,
+                TermColors.ENDC))
+        except KeyboardInterrupt:
+            self.quit()
 
         self.firstRun = True
         self.loop()
@@ -259,8 +262,8 @@ class LessListener:
                         )
                 time.sleep(0.3)
         except KeyboardInterrupt:
-            print "\n%sGoodbye, have a fantastic day!\n" % (TermColors.OKBLUE)
-            sys.exit(0)
+            self.quit()
+
         self.generate(filemodified)
 
     def generate(self, filemodified):
@@ -301,6 +304,10 @@ class LessListener:
                       TermColors.DEFAULT
                       )
         self.loop()
+
+    def quit(self):
+        print "\n%sGoodbye, have a fantastic day!\n" % (TermColors.OKBLUE)
+        sys.exit(0)
 
     def showProgress(self):
         sys.stdout.write("%s%sListening for changes %s%s%s%s\r" % (
